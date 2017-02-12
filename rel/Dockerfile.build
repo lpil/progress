@@ -1,0 +1,19 @@
+FROM aeons/elixir-gcc:1.4.1
+
+ENV MIX_ENV=prod
+
+WORKDIR /opt/app
+
+# Install deps
+COPY mix.exs mix.lock ./
+RUN mkdir -p apps/memory
+COPY apps/memory/mix.exs apps/memory/mix.lock ./
+
+RUN mix do deps.get, deps.compile
+
+# Add app code
+COPY . .
+
+RUN mix release --env=prod --verbose
+
+# vim: set ft=dockerfile:

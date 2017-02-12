@@ -15,3 +15,8 @@ import_config "../apps/*/config/config.exs"
 #       level: :info,
 #       format: "$date $time [$level] $metadata$message\n",
 #       metadata: [:user_id]
+
+config :mix_docker,
+  image: "progress", # TODO: Real name
+  dockerfile_build: "rel/Dockerfile.build",
+  dockerfile_release: "rel/Dockerfile.release"

@@ -18,3 +18,6 @@ erl_crash.dump
 
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
+
+# Ignore docker build artifacts (built via "mix docker.release")
+*.tar.gz
