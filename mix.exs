@@ -14,7 +14,9 @@ defmodule Progress.Mixfile do
   # and cannot be accessed from applications inside the apps folder
   #
   defp deps do
-    [{:mix_test_watch, "~> 0.2.0", runtime: false, only: [:dev]},
-     {:mix_docker, github: "recruitee/mix_docker", runtime: false}]
+    [# Automatic test runner
+     {:mix_test_watch, "~> 0.2.0", runtime: false, only: [:dev]},
+     # Docker image builder tool
+     {:mix_docker, "~> 0.3.2", runtime: false}]
   end
 end

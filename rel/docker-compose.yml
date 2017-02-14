@@ -1,0 +1,19 @@
+---
+version: '2'
+
+services:
+
+  app:
+    build:
+      context: ".."
+      dockerfile: "./rel/Dockerfile.dev"
+    command: "mix app.tree"
+    ports:
+      - "4000:4000"
+    volumes:
+      - "..:/opt/app"
+    depends_on:
+      - "redis"
+
+  redis:
+    image: redis
