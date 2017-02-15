@@ -1,11 +1,15 @@
 defmodule Web.Router do
-  use Web.Web, :router
+  use Plug.Router
 
-  pipeline :api do
-    plug :accepts, ["json"]
+  plug :match
+  plug :dispatch
+
+  get "/hello" do
+    conn
+    |> send_resp(200, "world")
   end
 
-  scope "/api", Web do
-    pipe_through :api
+  match _ do
+    send_resp(conn, 404, "oops")
   end
 end

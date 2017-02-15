@@ -1,5 +1,5 @@
 defmodule Web.ErrorView do
-  use Web.Web, :view
+  use Phoenix.View, root: "lib/templates"
 
   def render("404.json", _assigns) do
     %{errors: %{detail: "Page not found"}}
