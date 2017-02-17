@@ -42,7 +42,8 @@ end
 release :progress do
   set version: "0.1.0"
   set applications: [
-    memory: :permanent
-  ]
+    memory: :permanent,
+    core: :permanent,
+    web: :permanent]
 end
 

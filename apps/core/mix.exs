@@ -1,8 +1,8 @@
-defmodule Memory.Mixfile do
+defmodule Core.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :memory,
+    [app: :core,
      version: "0.1.0",
      build_path: "../../_build",
      config_path: "../../config/config.exs",
@@ -15,11 +15,12 @@ defmodule Memory.Mixfile do
   end
 
   def application do
+    # Specify extra applications you'll use from Erlang/Elixir
     [extra_applications: [:logger],
-     mod: {Memory.Application, []}]
+     mod: {Core.Application, []}]
   end
 
   defp deps do
-    [{:exredis, "~> 0.2.5"}]
+    [{:memory, in_umbrella: true}]
   end
 end

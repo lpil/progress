@@ -20,8 +20,6 @@ defmodule Web.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
 
-      import Web.Router.Helpers
-
       # The default endpoint for testing
       @endpoint Web.Endpoint
     end

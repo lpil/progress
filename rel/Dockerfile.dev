@@ -9,9 +9,16 @@ RUN mkdir -p ./config
 COPY mix.exs mix.lock ./
 COPY config/* ./config/
 
-RUN mkdir -p ./apps/memory/config
+# Core app
+COPY ./apps/core/mix.exs ./apps/core/
+
+# Web app
+RUN mkdir -p ./apps/web/config
+COPY ./apps/web/mix.exs ./apps/web/
+COPY ./apps/web/config/* ./apps/web/config/
+
+# Memory app
 COPY ./apps/memory/mix.exs ./apps/memory/
-COPY ./apps/memory/config/* ./apps/memory/config/
 
 RUN mix do deps.get, deps.compile
 

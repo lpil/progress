@@ -32,7 +32,9 @@ defmodule Web.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [# Web framework
+    [{:core, in_umbrella: true},
+
+     # Web framework
      {:phoenix, "~> 1.2.1"},
      # Pubsub system
      {:phoenix_pubsub, "~> 1.0"},
