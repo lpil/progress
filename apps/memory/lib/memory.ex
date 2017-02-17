@@ -6,24 +6,27 @@ defmodule Memory do
   The data stored may be forgotten at a later date.
   """
 
+  alias Memory.Pool
+
   @doc """
   Write a value to the store.
 
   """
   def put(key, value) when is_binary(key) do
-    case redis_send(["SET", key, value]) do
-      "OK" -> :ok
+    case Pool.command(["SET", key, value]) do
+      {:ok, "OK"} -> :ok
     end
   end
+
 
   @doc """
   Read a value from the store.
 
   """
   def get(key) when is_binary(key) do
-    case redis_send(["GET", key]) do
-      :undefined -> nil
-      value -> {:ok, value}
+    case Pool.command(["GET", key]) do
+      {:ok, nil} -> nil
+      {:ok, value} -> {:ok, value}
     end
   end
 
@@ -33,17 +36,6 @@ defmodule Memory do
 
   """
   def delete(key) when is_binary(key) do
-    case redis_send(["DEL", key]) do
-      _ -> :ok
-    end
-  end
-
-
-  #
-  # Private
-  #
-
-  defp redis_send(query) do
-    Exredis.query(Memory.RedisRepo, query)
+    Pool.command(["DEL", key])
   end
 end

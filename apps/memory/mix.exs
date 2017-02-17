@@ -20,6 +20,6 @@ defmodule Memory.Mixfile do
   end
 
   defp deps do
-    [{:exredis, "~> 0.2.5"}]
+    [{:redix, "~> 0.5"}]
   end
 end

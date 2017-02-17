@@ -7,8 +7,8 @@ defmodule Memory.Application do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
-    children =
-      [worker(RedisRepo, [RedisRepo])]
+    children = [
+      supervisor(Memory.Pool, [])]
 
     opts = [strategy: :one_for_one, name: Memory.Supervisor]
     Supervisor.start_link(children, opts)
