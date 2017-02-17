@@ -1,20 +1,23 @@
-defmodule Web.ErrorViewTest do
-  use Web.ConnCase, async: true
-
-  import Phoenix.View, only: [render: 3]
+defmodule Web.ViewTest do
+  use ExUnit.Case, async: true
+  alias Web.View
 
   test "renders 404.json" do
-    assert render(Web.ErrorView, "404.json", []) ==
-           %{errors: %{detail: "Page not found"}}
+    assert View.render("404.json", []) ==
+           ~s({"errors":{"detail":"Page not found"}})
   end
 
   test "render 500.json" do
-    assert render(Web.ErrorView, "500.json", []) ==
-           %{errors: %{detail: "Internal server error"}}
+    assert View.render("500.json", []) ==
+           ~s({"errors":{"detail":"Internal server error"}})
   end
 
   test "render any other" do
-    assert render(Web.ErrorView, "505.json", []) ==
-           %{errors: %{detail: "Internal server error"}}
+    assert View.render("505.json", []) ==
+           ~s({"errors":{"detail":"Internal server error"}})
+  end
+
+  test "render ok.json" do
+    assert View.render("ok.json", []) == ~s({"status":"ok"})
   end
 end
