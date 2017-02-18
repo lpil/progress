@@ -1,5 +1,5 @@
 ---
-version: '2'
+version: "2"
 
 services:
 
@@ -12,6 +12,8 @@ services:
       - "4000:4000"
     volumes:
       - "..:/opt/app"
+    environment:
+      - 'REDIS_URI="redis://redis:6379/0"'
     depends_on:
       - "redis"
 

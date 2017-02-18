@@ -1,20 +1,28 @@
 defmodule Web.Router do
   use Plug.Router
-  alias Web.View
+  alias Web.{View, Meter}
 
-  plug :json_content_type
+  #
+  # Router
+  #
+
+  plug :put_resp_content_type_json
   plug :match
   plug :dispatch
 
-  #
-  # Routes
-  #
+  forward "/meter", to: Meter.Router
 
   get "/__health__" do
     send_resp(conn, 200, View.render("ok.json"))
   end
 
-  match _ do
+  match _, do: not_found(conn)
+
+  #
+  # Functions
+  #
+
+  def not_found(conn) do
     send_resp(conn, 404, View.render("404.json"))
   end
 
@@ -22,7 +30,7 @@ defmodule Web.Router do
   # Private
   #
 
-  defp json_content_type(conn, _) do
+  defp put_resp_content_type_json(conn, _opts) do
     put_resp_content_type(conn, "application/json")
   end
 end

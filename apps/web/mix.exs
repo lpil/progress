@@ -39,6 +39,8 @@ defmodule Web.Mixfile do
      # Pubsub system
      {:phoenix_pubsub, "~> 1.0"},
      # Web server
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     # Param validation changesets
+     {:ecto, "~> 2.0"}]
   end
 end

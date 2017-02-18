@@ -12,11 +12,6 @@ defmodule Web.ViewTest do
            ~s({"errors":{"detail":"Internal server error"}})
   end
 
-  test "render any other" do
-    assert View.render("505.json", []) ==
-           ~s({"errors":{"detail":"Internal server error"}})
-  end
-
   test "render ok.json" do
     assert View.render("ok.json", []) == ~s({"status":"ok"})
   end
