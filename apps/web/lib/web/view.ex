@@ -3,8 +3,6 @@ defmodule Web.View do
   Views relating to errors.
   """
 
-  require Logger
-
   def render(view, assigns \\ %{})
 
   def render("ok.json", _assigns) do
