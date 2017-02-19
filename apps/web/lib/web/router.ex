@@ -16,6 +16,10 @@ defmodule Web.Router do
     send_resp(conn, 200, View.render("ok.json"))
   end
 
+  get "/teapot" do
+    send_resp(conn, 418, "I'm a little teapot, short and stout.")
+  end
+
   match _, do: not_found(conn)
 
   #

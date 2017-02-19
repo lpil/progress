@@ -6,7 +6,7 @@ defmodule Memory do
   The data stored may be forgotten at a later date.
   """
 
-  alias Memory.{Pool, Lua}
+  alias Memory.{Pool, Lua, Meter}
   require Lua
 
 
@@ -14,14 +14,13 @@ defmodule Memory do
   Create a new meter.
 
   """
-  def create_meter(meter_key, total, progress)
-    when is_binary(meter_key)
-    and is_integer(total)
-    and is_integer(progress)
-    and total > progress
+  def create_meter(%Meter{name: name, total: total,
+                          unit: unit, progress: progress})
+    when is_binary(name) and is_binary(unit) and is_integer(total)
+    and is_integer(progress) and total > progress
   do
     script = Lua.create_meter()
-    command = ["EVAL", script, 3, meter_key, total, progress]
+    command = ["EVAL", script, 4, name, unit, total, progress]
     case Pool.command(command) do
       {:ok, "ok"} ->
         :ok
@@ -54,9 +53,8 @@ defmodule Memory do
   Returns an error if the meter has not yet been created.
 
   """
-  def increment_meter(request_id, meter_key, amount)
-    when is_binary(request_id)
-    and is_binary(meter_key)
+  def increment_meter(meter_key, request_id, amount)
+    when is_binary(meter_key) and is_binary(request_id)
     and is_integer(amount)
   do
     script = Lua.idempotent_increment()
@@ -82,10 +80,5 @@ defmodule Memory do
       {:ok, nil} -> nil
       {:ok, value} -> {:ok, value}
     end
-  end
-
-  @doc false
-  def delete(key) when is_binary(key) do
-    Pool.command(["DEL", key])
   end
 end
