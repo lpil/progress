@@ -41,10 +41,22 @@ defmodule MemoryTest do
       assert :unknown_meter == Memory.increment_meter(req_id, meter, 50)
     end
 
-    @tag :skip
-    test "success"
-    @tag :skip
-    test "error with already used request id"
+    test "successful incrementing" do
+      meter = unique_key()
+      req_id = unique_key()
+      assert :ok == Memory.delete_meter(meter)
+      assert :ok == Memory.create_meter(meter, 50, 10)
+      assert {:ok, 12} == Memory.increment_meter(req_id, meter, 2)
+    end
+
+    test "cannot use a request id twice" do
+      meter = unique_key()
+      req_id = unique_key()
+      assert :ok == Memory.delete_meter(meter)
+      assert :ok == Memory.create_meter(meter, 50, 10)
+      assert {:ok, 12} == Memory.increment_meter(req_id, meter, 2)
+      assert :repeat_request_id == Memory.increment_meter(req_id, meter, 3)
+    end
   end
 
 

@@ -10,7 +10,6 @@ defmodule Memory do
   require Lua
 
 
-
   @doc """
   Create a new meter.
 
@@ -26,6 +25,7 @@ defmodule Memory do
     case Pool.command(command) do
       {:ok, "ok"} ->
         :ok
+
       {:ok, "already exists"} ->
         :already_exists
     end
@@ -64,6 +64,13 @@ defmodule Memory do
     case Pool.command(command) do
       {:ok, "unknown meter"} ->
         :unknown_meter
+
+      {:ok, "repeat request id"} ->
+        :repeat_request_id
+
+      # TODO: return meter struct
+      {:ok, [progress]} when is_integer(progress) ->
+        {:ok, progress}
     end
   end
 
