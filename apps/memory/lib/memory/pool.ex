@@ -16,6 +16,14 @@ defmodule Memory.Pool do
     Redix.command(random_worker(), command)
   end
 
+  @doc """
+  Execute a Redis pipeline using a worker from the pool.
+
+  """
+  def pipeline(pipeline) do
+    Redix.pipeline(random_worker(), pipeline)
+  end
+
 
   #
   # OTP callbacks
