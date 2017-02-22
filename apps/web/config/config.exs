@@ -9,7 +9,7 @@ use Mix.Config
 config :web, Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "4VJuUvWeLOQMvqllSIzitttkolPHksqiZLMp1lzKO7rx6I1R9IxBMLUSwagW2XXy",
-  render_errors: [view: Web.View, accepts: ~w(json)],
+  render_errors: [view: Web.ErrorView, accepts: ~w(json)],
   pubsub: [name: Web.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

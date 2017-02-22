@@ -1,37 +1,21 @@
 defmodule Web.Router do
-  use Plug.Router
-  alias Web.{View, Meter}
+  use Phoenix.Router
 
-  #
-  # Router
-  #
-
-  plug :put_resp_content_type_json
-  plug :match
-  plug :dispatch
-
-  forward "/meter", to: Meter.Router
-
-  get "/__health__" do
-    send_resp(conn, 200, View.render("ok.json"))
+  pipeline :api do
+    plug :accepts, ["json"]
+    plug :put_resp_content_type_json
   end
 
-  get "/teapot" do
-    send_resp(conn, 418, "I'm a little teapot, short and stout.")
-  end
+  scope "/", Web do
+    pipe_through :api
 
-  match _, do: not_found(conn)
+    get "/__health__", Health.Controller, :index
 
-  #
-  # Functions
-  #
-
-  def not_found(conn) do
-    send_resp(conn, 404, View.render("404.json"))
+    resources "/meters", Meter.Controller, only: [:create]
   end
 
   #
-  # Private
+  # Plugs
   #
 
   defp put_resp_content_type_json(conn, _opts) do

@@ -1,8 +1,8 @@
-defmodule Web.Meter.CreateParamsTest do
+defmodule Web.Meter.ParamsTest do
   use ExUnit.Case, async: true
 
-  alias Web.Meter.CreateParams
-  import CreateParams, only: [changeset: 1]
+  alias Web.Meter.Params
+  import Params, only: [changeset: 2]
 
   @valid_params %{id: "video-1",
                   unit: "seconds",
@@ -10,7 +10,7 @@ defmodule Web.Meter.CreateParamsTest do
 
   describe ".changeset/1" do
     test "fields are required" do
-      changeset = changeset(%{})
+      changeset = changeset(%{}, :create)
       refute changeset.valid?
       assert [id: {"can't be blank", [validation: :required]},
               unit: {"can't be blank", [validation: :required]},
@@ -19,7 +19,9 @@ defmodule Web.Meter.CreateParamsTest do
     end
 
     test "id cannot contain :::" do
-      changeset = changeset(%{@valid_params | id: "video:::1"})
+      changeset = @valid_params
+                  |> Map.put(:id, "video:::1")
+                  |> changeset(:create)
       assert changeset.errors[:id] == {"cannot contain `:::`", []}
     end
 
@@ -28,7 +30,9 @@ defmodule Web.Meter.CreateParamsTest do
     end
 
     test "total cannot be 0" do
-      changeset = @valid_params |> Map.put(:total, "0") |> changeset()
+      changeset = @valid_params
+                  |> Map.put(:total, "0")
+                  |> changeset(:create)
       assert changeset.errors[:total]
     end
 
@@ -37,7 +41,9 @@ defmodule Web.Meter.CreateParamsTest do
     end
 
     test "progress can be 0" do
-      changeset = @valid_params |> Map.put(:progress, "0") |> changeset()
+      changeset = @valid_params
+                  |> Map.put(:progress, "0")
+                  |> changeset(:create)
       refute changeset.errors[:progress]
     end
   end
@@ -46,14 +52,18 @@ defmodule Web.Meter.CreateParamsTest do
   defp assert_positive_number_field(field) do
     invalids = ["not a number", "-40"]
     for value <- invalids do
-      changeset = @valid_params |> Map.put(field, value) |> changeset()
+      changeset = @valid_params
+                  |> Map.put(field, value)
+                  |> changeset(:create)
       assert changeset.errors[field],
              "`#{value}` should be invalid for #{field}"
     end
 
     valids = ["1", "40", "1000000", "+1"]
     for value <- valids do
-      changeset = @valid_params |> Map.put(field, value) |> changeset()
+      changeset = @valid_params
+                  |> Map.put(field, value)
+                  |> changeset(:create)
       refute changeset.errors[field],
              "`#{value}` should be valid for #{field}"
     end

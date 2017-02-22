@@ -1,4 +1,4 @@
-defmodule Web.Meter.CreateParams do
+defmodule Web.Meter.Params do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -10,7 +10,7 @@ defmodule Web.Meter.CreateParams do
     field :progress, :integer
   end
 
-  def changeset(params) do
+  def changeset(params, :create) do
     %__MODULE__{}
     |> cast(params, __schema__(:fields))
     |> validate_required([:id, :unit, :total])
